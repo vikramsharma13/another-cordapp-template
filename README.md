@@ -7,7 +7,6 @@
 Welcome to the Kotlin CorDapp template. The CorDapp template is a stubbed-out CorDapp that you can use to bootstrap 
 your own CorDapps.
 
-**This is the Kotlin version of the CorDapp template. 
 # Pre-Requisites
 
 See https://docs.corda.net/getting-set-up.html.
@@ -18,8 +17,9 @@ See https://docs.corda.net/getting-set-up.html.
 
 See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
 
-This can be done simply by running the two scripts in the `script` folder. You might need to changed the permissions first to run.
+This can be done simply by running the two scripts in the `script` folder. You might need to changed the file permissions first to do so.
 
+    cd scripts
     chmod +x deployNodes.sh runNodes.sh 
     ./deployNodes.sh 
     ./runNodes.sh
@@ -67,9 +67,13 @@ You can find out more about the node shell [here](https://docs.corda.net/shell.h
 ### Client Webserver
 
 `clients/src/main/kotlin/com/template/webserver/` defines a simple Spring webserver that connects to a node via RPC and 
-allows you to interact with the node over HTTP.
+allows you to interact with the node over HTTP. This connection is established via a proxy `NodeRPCConnection.kt` class.
 
-The API endpoints are defined here:
+Some helpful starter API endpoints are defined here:
+
+     clients/src/main/kotlin/com/template/webserver/StandardController.kt
+     
+You can add and extend your own here:
 
      clients/src/main/kotlin/com/template/webserver/CustomController.kt
 
