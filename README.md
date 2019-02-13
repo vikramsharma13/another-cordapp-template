@@ -18,6 +18,12 @@ See https://docs.corda.net/getting-set-up.html.
 
 See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
 
+This can be done simply by running the two scripts in the `script` folder. You might need to changed the permissions first to run.
+
+    chmod +x deployNodes.sh runNodes.sh 
+    ./deployNodes.sh 
+    ./runNodes.sh
+
 ## Interacting with the nodes
 
 ### Shell
@@ -92,6 +98,10 @@ The static webpage is served on:
 While the sole template endpoint is served on:
 
     http://localhost:10050/templateendpoint
+    
+### Docker
+
+You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of particpant names, spin up a docker network along with containers for each node that can join it.
     
 # Extending the template
 
