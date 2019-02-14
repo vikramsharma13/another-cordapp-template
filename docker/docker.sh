@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 
-#NODE_LIST=("Party1" "Party2" "Party3")
 NETWORK_NAME=mininet
+#### Parse participant names from text file ####
 
-fileItemString=$(cat participants.txt |tr "\n" " ")
+nodeNames=$(cat participants.txt |tr "\n" " ")
 
-NODE_LIST=($fileItemString)
+NODE_LIST=($nodeNames)
 
 #### START CORDAPP SETUP ####
 mkdir cordapps
