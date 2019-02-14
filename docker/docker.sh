@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
 
-NODE_LIST=("Party1" "Party2" "Party3")
+#NODE_LIST=("Party1" "Party2" "Party3")
 NETWORK_NAME=mininet
+
+fileItemString=$(cat participants.txt |tr "\n" " ")
+
+NODE_LIST=($fileItemString)
+
 #### START CORDAPP SETUP ####
 mkdir cordapps
 rm -f cordapps/*
