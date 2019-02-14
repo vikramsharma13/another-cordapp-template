@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
  * Define CorDapp-specific endpoints in a controller such as this.
  */
 @RestController
-@RequestMapping("/custom") // The paths for GET and POST requests are relative to this base path.
+@RequestMapping("/api") // The paths for GET and POST requests are relative to this base path.
 class CustomController(
         private val rpc: NodeRPCConnection) {
 

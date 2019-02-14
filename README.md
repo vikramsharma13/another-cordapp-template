@@ -85,27 +85,52 @@ And a static webpage is defined here:
 
 ##### Via the command line
 
-Run the `runTemplateServer` Gradle task. By default, it connects to the node with RPC address `localhost:10006` with 
-the username `user1` and the password `test`, and serves the webserver on port `localhost:10050`.
+Each node has it's own corresponding Spring server that interacts with it via Node RPC Connection proxy which is essentially a wrapper around the CordaRPCClient class. You can start these web servers via gradle tasks for ease-of-development. 
 
+    ./gradlew runPartyAServer 
+    ./gradlew runPartyBServer
+    ./gradlew runPartyCServer  
+    
+These web servers are hosted on ports 50005, 50006 and 50007 respectively. You can test they have launched successfully by connecting to one of there endpoints.
+
+    curl localhost:50005/api/status -> 200
+    
+You can add your own custom endpoints to the Spring Custom Controller 
+    
 ##### Via IntelliJ
 
 Run the `Run Template Server` run configuration. By default, it connects to the node with RPC address `localhost:10006` 
 with the username `user1` and the password `test`, and serves the webserver on port `localhost:10050`.
 
-#### Interacting with the webserver
-
-The static webpage is served on:
-
-    http://localhost:10050
-
-While the sole template endpoint is served on:
-
-    http://localhost:10050/templateendpoint
-    
 ### Docker
 
-You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of particpant names, spin up a docker network along with containers for each node that can join it.
+You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of participant names, spin up a docker network along with containers for each node that can join it.
+
+Once the script has been successfully ran you can inspect the docker processes. via the command below which should display a list of 4 running containers; one for each of the 3 partys and one for the notary and network map service.
+
+    docker ps
+
+Alternatively you can display all docker containers whether they are running or not via the command 
+
+    docker ps -a
+    
+Once you can see the running containers. You can `ssh` in to one to interact with the corda node via the command
+
+    ssh rpcUser@localhost -p <ssh-port> #2221 is the first port used. The password is testingPassword
+    
+The template uses the Corda finance Cordapps but you can use any of you own. Just place them in the Cordapps folders by editing the script or do it after and relaunch the container. We can test this node is successfully running by running
+
+    run vaultQuery contractStateType: net.corda.finance.contracts.asset.Cash$State
+    start net.corda.finance.flows.CashIssueFlow amount: $111111, issuerBankPartyRef: 0x01, notary: Notary
+    start net.corda.finance.flows.CashPaymentFlow amount: $500, recipient: "Party2"
+    start net.corda.finance.flows.CashPaymentFlow amount: $500, recipient: "Party3"
+    
+Try other nodes too
+
+    ssh rpcUser@localhost -p 2222
+    start net.corda.finance.flows.CashPaymentFlow amount: $200, recipient: "Party1"
+    start net.corda.finance.flows.CashPaymentFlow amount: $100, recipient: "Party3"
+    
     
 # Extending the template
 

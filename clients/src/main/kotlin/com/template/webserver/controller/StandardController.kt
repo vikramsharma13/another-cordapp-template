@@ -15,7 +15,7 @@ import java.time.ZoneId
  * A CorDapp-agnostic controller that exposes standard endpoints.
  */
 @RestController
-@RequestMapping("/") // The paths for GET and POST requests are relative to this base path.
+@RequestMapping("/api") // The paths for GET and POST requests are relative to this base path.
 class StandardController(
         private val rpc: NodeRPCConnection) {
 
