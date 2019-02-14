@@ -1,7 +1,55 @@
+
 buildscript {
     ext {
         corda_release_group = 'net.corda'
-        corda_release_version = '4.0-SNAPSHOT'
+//        corda_release_version = '4.0-SNAPSHOT'
+        corda_release_version = '4.0-RC03'
+        corda_gradle_plugins_version = '4.0.37'
+        kotlin_version = '1.2.71'
+        junit_version = '4.12'
+        quasar_version = '0.7.10'
+        spring_boot_version = '2.0.2.RELEASE'
+        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+        slf4j_version = '1.7.25'
+        log4j_version = '2.9.1'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
+//        maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
+        classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
+        classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
+    }
+}
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
+        // Can be removed post-release - used to get nightly snapshot build.
+//        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' }
+//        maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+
+
+        maven { url 'https://jitpack.io' }
+        mavenLocal()
+    }
+}
+
+buildscript {
+    ext {
+        corda_release_group = 'net.corda'
+        //corda_release_version = '4.0-SNAPSHOT'
+        corda_release_version = '4.0-RC03'
         corda_gradle_plugins_version = '4.0.38'
         kotlin_version = '1.2.71'
         junit_version = '4.12'
@@ -16,7 +64,9 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
-        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }    
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
+        //maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
     }
 
     dependencies {
@@ -33,8 +83,10 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
-        // Can be removed post-release - used to get nightly snapshot build.
-        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' }
+        //Can be removed post-release - used to get nightly snapshot build.
+        //maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' }
+        //maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
         maven { url 'https://jitpack.io' }
         mavenLocal()
     }
@@ -102,6 +154,10 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
                 "$project.group:contracts:$project.version",
                 "$project.group:workflows:$project.version"
         ]
+        extraConfig = [
+                // Setting the H2 address.
+                h2Settings: [ address: 'localhost:10030' ]
+        ]
     }
     node {
         name "O=PartyA,L=London,C=GB"
@@ -113,6 +169,10 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         cordapps = [
                 "$project.group:contracts:$project.version",
                 "$project.group:workflows:$project.version"
+        ]
+        extraConfig = [
+                // Setting the H2 address.
+                h2Settings: [ address: 'localhost:10033' ]
         ]
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
@@ -127,20 +187,29 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
                 "$project.group:contracts:$project.version",
                 "$project.group:workflows:$project.version"
         ]
+        extraConfig = [
+                // Setting the H2 address.
+                h2Settings: [ address: 'localhost:10036' ]
+        ]
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
 
     node {
-        name "O=PartyC,L=Berlin,C=DE"
-        p2pPort 10008
+        name "O=PartyC,L=New York,C=US"
+        p2pPort 10011
         rpcSettings {
-            address("localhost:10013")
-            adminAddress("localhost:10053")
+            address("localhost:10012")
+            adminAddress("localhost:10052")
         }
         cordapps = [
                 "$project.group:contracts:$project.version",
                 "$project.group:workflows:$project.version"
         ]
+        extraConfig = [
+                // Setting the H2 address.
+                h2Settings: [ address: 'localhost:10039' ]
+        ]
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
+
 }
