@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
+docker kill $(docker ps -q)
+docker rm $(docker ps -a -q)
 
-NETWORK_NAME=mininet
 #### Parse participant names from text file ####
-
-nodeNames=$(cat participants.txt |tr "\n" " ")
-
-NODE_LIST=($nodeNames)
+NODE_LIST=($(cat participants.txt |tr "\n" " "))
+nodeListlength=${#NODE_LIST}
 
 #### START CORDAPP SETUP ####
 mkdir cordapps
@@ -50,6 +49,8 @@ do
     mkdir ${NODE}/persistence
 done
 
+
+NETWORK_NAME=mininet
 docker rm -f  netmap
 docker network rm ${NETWORK_NAME}
 
@@ -71,8 +72,9 @@ do
     let EXIT_CODE=$?
 done
 
-for NODE in ${NODE_LIST[*]}
+for (( i=0; i<=nodeListlength; i++ ));
 do
+    NODE=${NODE_LIST[i]}
     wget -O ${NODE}/certificates/network-root-truststore.jks http://localhost:18080/truststore
     docker rm -f ${NODE}
     docker run \
@@ -82,7 +84,7 @@ do
             -e DOORMAN_URL="http://netmap:8080"         \
             -e NETWORK_TRUST_PASSWORD="trustpass"       \
             -e MY_EMAIL_ADDRESS="${NODE}@r3.com"      \
-            -e MY_RPC_PORT="1100"$(echo ${NODE} | sed 's/[^0-9]*//g')  \
+            -e MY_RPC_PORT="1100"${i}  \
             -e RPC_PASSWORD="testingPassword" \
             -v $(pwd)/${NODE}/config:/etc/corda          \
             -v $(pwd)/${NODE}/certificates:/opt/corda/certificates \
@@ -100,20 +102,11 @@ do
             -v $(pwd)/${NODE}/logs:/opt/corda/logs \
             -v $(pwd)/${NODE}/persistence:/opt/corda/persistence \
             -v $(pwd)/cordapps:/opt/corda/cordapps \
-            -p "1100"$(echo ${NODE} | sed 's/[^0-9]*//g'):"1100"$(echo ${NODE} | sed 's/[^0-9]*//g') \
-            -p "222$(echo ${NODE} | sed 's/[^0-9]*//g')":"222$(echo ${NODE} | sed 's/[^0-9]*//g')" \
-            -e CORDA_ARGS="--sshd --sshd-port=222$(echo ${NODE} | sed 's/[^0-9]*//g')" \
+            -p "1100"${i}:"1100"${i} \
+            -p "222"${i}:"222"${i} \
+            -e CORDA_ARGS="--sshd --sshd-port=222"${i} \
             --name ${NODE} \
             --network="${NETWORK_NAME}" \
             corda/corda-zulu-4.0-rc02:latest
 done
 
-
-#ssh -o StrictHostKeyChecking=no rpcUser@localhost -p 2222
-#<password>
-#start net.corda.finance.flows.CashPaymentFlow amount: $200, recipient: "dockerNode1"
-#start net.corda.finance.flows.CashPaymentFlow amount: $100, recipient: "dockerNode3"
-#
-#ssh -o StrictHostKeyChecking=no rpcUser@localhost -p 2223
-#<password>
-#start net.corda.finance.flows.CashPaymentFlow amount: $200, recipient: "dockerNode1"
