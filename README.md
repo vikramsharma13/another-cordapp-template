@@ -126,7 +126,7 @@ Once you can see the running containers. You can `ssh` in to one to interact wit
 
     ssh rpcUser@localhost -p <ssh-port> #2221 is the first port used. The password is testingPassword
     
-The template uses the Corda finance Cordapps but you can use any of you own. Just place them in the Cordapps folders by editing the script or do it after and relaunch the container. We can test this node is successfully running by running
+The template uses the Corda finance Cordapps but you can use any of your own. Just place them in the Cordapps folders by editing the script or do it after and relaunch the container. We can test this node is successfully running by running
 
     run vaultQuery contractStateType: net.corda.finance.contracts.asset.Cash$State
     start net.corda.finance.flows.CashIssueFlow amount: $111111, issuerBankPartyRef: 0x01, notary: Notary
