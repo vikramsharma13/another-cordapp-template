@@ -112,7 +112,7 @@ with the username `user1` and the password `test`, and serves the webserver on p
 
 ### Run a local Docker network
 
-You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of participant names specified within the participant.txt file. For now each party name should be allocated a number linearly at the end i.e Party1, Party2, Party3,... PartyN, to ensure a correct allocation of ports. The script will spin up a docker network along docker containers for each node that request to join through the doorman and NMS container.
+You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of participant names specified within the participant.txt file. The script will spin up a docker network along docker containers for each node. These nodes then request to join the local Corda network through the doorman and NMS container.
 
 Once the script has been successfully ran you can inspect the docker processes. via the command below which should display a list of 4 running containers; one for each of the 3 partys and one for the notary and network map service.
 
