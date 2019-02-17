@@ -105,11 +105,6 @@ The list of available endpoints to play with now are:
     
 You can add your own custom endpoints to the Spring Custom Controller 
     
-##### Via IntelliJ
-
-Run the `Run Template Server` run configuration. By default, it connects to the node with RPC address `localhost:10006` 
-with the username `user1` and the password `test`, and serves the webserver on port `localhost:10050`.
-
 ### Run a local Docker network
 
 You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of participant names specified within the participant.txt file. The script will spin up a docker network along docker containers for each node. These nodes then request to join the local Corda network through the doorman and NMS container.
