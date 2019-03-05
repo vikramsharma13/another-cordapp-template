@@ -107,17 +107,12 @@ You can add your own custom endpoints to the Spring Custom Controller, or any ot
     
 ### Run a local Docker network
 
-<<<<<<< HEAD
 You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will create containers according to how many names you specifiy in the participant.txt file. 
 The script starts by spinning up a docker network. Each container that is generated is added to the docker network `mininet`. Furthermore each Corda node in those containers joins the local Corda network by requesting access through the `netmap` container which contains:
  1. An identity operator (previously doorman service) 
  2. A Network Map Service
  3. A Notary
  
-=======
-You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of participant names specified within the participant.txt file. The script will spin up a docker network along docker containers for each node. These nodes then request to join the local Corda network through the doorman and NMS container.
-
->>>>>>> e1a4a8a960f1856c343613f5763a1b9ea02b6485
 Once the script has been successfully ran you can inspect the docker processes. via the command below which should display a list of 4 running containers; one for each of the 3 partys and one for the notary and network map service.
 
     docker ps
