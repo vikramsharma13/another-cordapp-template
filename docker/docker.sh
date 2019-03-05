@@ -128,3 +128,4 @@ do
             --network="${NETWORK_NAME}" \
             corda/corda-zulu-4.0-rc02:latest
 done
+
