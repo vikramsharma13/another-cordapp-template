@@ -103,7 +103,7 @@ The list of available endpoints to play with now are:
     /api/flows/
     /api/states
     
-You can add your own custom endpoints to the Spring Custom Controller 
+You can add your own custom endpoints to the Spring Custom Controller, or any other controller of your choosing.
     
 ##### Via IntelliJ
 
@@ -112,8 +112,12 @@ with the username `user1` and the password `test`, and serves the webserver on p
 
 ### Run a local Docker network
 
-You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will generate the relevant directories for a list of participant names specified within the participant.txt file. For now each party name should be allocated a number linearly at the end i.e Party1, Party2, Party3,... PartyN, to ensure a correct allocation of ports. The script will spin up a docker network along docker containers for each node that request to join through the doorman and NMS container.
-
+You can interact with the Corda nodes on your own mini network of docker containers. You can bootstrap this network via the `docker.sh` script within docker module. This script will create containers according to how many names you specifiy in the participant.txt file. 
+The script starts by spinning up a docker network. Each container that is generated is added to the docker network `mininet`. Furthermore each Corda node in those containers joins the local Corda network by requesting access through the `netmap` container which contains:
+ 1. An identity operator (previously doorman service) 
+ 2. A Network Map Service
+ 3. A Notary
+ 
 Once the script has been successfully ran you can inspect the docker processes. via the command below which should display a list of 4 running containers; one for each of the 3 partys and one for the notary and network map service.
 
     docker ps
