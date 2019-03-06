@@ -140,7 +140,7 @@ Try other nodes too
 
 ### Deploy a Kubernetes network of Corda nodes
 
-You can deploy a collection of Corda nodes within docker containers on a kubernetes cluster on your machine. Each node currently runs the [Yo Cordapp](https://github.com/corda/samples/tree/release-V4/yo-cordapp) but work is underway to link up the output of workflows and contracts build jars. 
+You can deploy a collection of Corda nodes within docker containers on a kubernetes cluster on your machine. Each node currently runs the [Yo Cordapp](https://github.com/corda/samples/tree/release-V4/yo-cordapp) but work is underway to link up the output of workflows and contracts build jars of this template. 
 
 The essential commands are:
 
