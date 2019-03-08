@@ -2,8 +2,7 @@
 buildscript {
     ext {
         corda_release_group = 'net.corda'
-//        corda_release_version = '4.0-SNAPSHOT'
-        corda_release_version = '4.0-RC03'
+        corda_release_version = '4.0'
         corda_gradle_plugins_version = '4.0.37'
         kotlin_version = '1.2.71'
         junit_version = '4.12'
@@ -18,7 +17,6 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
-//        maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
     }
     dependencies {
@@ -34,12 +32,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
-        // Can be removed post-release - used to get nightly snapshot build.
-//        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' }
-//        maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
-
-
         maven { url 'https://jitpack.io' }
         mavenLocal()
     }
@@ -48,8 +41,7 @@ allprojects {
 buildscript {
     ext {
         corda_release_group = 'net.corda'
-        //corda_release_version = '4.0-SNAPSHOT'
-        corda_release_version = '4.0-RC03'
+        corda_release_version = '4.0'
         corda_gradle_plugins_version = '4.0.38'
         kotlin_version = '1.2.71'
         junit_version = '4.12'
@@ -65,7 +57,6 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
-        //maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
     }
 
@@ -83,9 +74,6 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
-        //Can be removed post-release - used to get nightly snapshot build.
-        //maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' }
-        //maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-dev' } //access to OS snapshots
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
         maven { url 'https://jitpack.io' }
         mavenLocal()
