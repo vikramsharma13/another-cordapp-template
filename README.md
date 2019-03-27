@@ -5,7 +5,7 @@
 # CorDapp Client Template - Kotlin
 
 Welcome to the Kotlin CorDapp template. The CorDapp template is a stubbed-out CorDapp that you can use to bootstrap 
-your own CorDapps.
+your own CorDapps. It also contains some reference implementations of poplular design patterns that you may find helpful.
 
 # Pre-Requisites
 
