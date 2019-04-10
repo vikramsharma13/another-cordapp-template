@@ -17,13 +17,15 @@ import org.junit.Test
 
 class ExampleContractTests{
 
-    // set up the mockServices which will validate the test transactions
+    // Set up the mockServices which will validate the test transactions
     private val ledgerServices = MockServices(
             cordappPackages = listOf("com.template.contracts"),
             initialIdentity = TestIdentity(CordaX500Name("TestIdentity", "", "GB")),
             identityService = makeTestIdentityService(),
             networkParameters = testNetworkParameters(minimumPlatformVersion = 4))
 
+
+    // Set up some test Identities to use in the tests
     private val party1 = TestIdentity(CordaX500Name.parse("O=party1,L=London,C=GB"))
     private val party2 = TestIdentity(CordaX500Name.parse("O=party2,L=NewYork,C=US"))
     private val otherIdentity = TestIdentity(CordaX500Name.parse("O=otherIdentity,L=Paris,C=FR"))
@@ -31,7 +33,7 @@ class ExampleContractTests{
 
 
 
-    // set up some dummy transaction components for use in the testing
+    // Set up some dummy transaction components for use in the testing
     data class DummyState(val party: Party) : ContractState {
         override val participants: List<AbstractParty> = listOf(party)
     }
@@ -40,7 +42,7 @@ class ExampleContractTests{
         class dummyCommand: TestCommands
     }
 
-    // set up some states to use in the testing
+    // Set up some states to use in the testing
 
     private val draftState1 = ExampleState(party1.party, party2.party, "This is agreement 1")
     private val draftState2 = ExampleState(party1.party, party2.party, "This is agreement 2")
@@ -52,7 +54,7 @@ class ExampleContractTests{
     @Test
     fun `example for DSL structure`() {
 
-        // the ledgerServices DSL allows you to build transactions and test them against your contract logic
+        // The ledgerServices DSL allows you to build transactions and test them against your contract logic
         ledgerServices.ledger {
 
             // transaction {} allows you to build up a transaction for testing and assert whether it shoudl pass or fail verification
@@ -88,7 +90,7 @@ class ExampleContractTests{
 
 
 
-            // output states can be referenced from previous transactions
+            // Output states can be referenced from previous transactions
             transaction {
 
                 input("draftState2Label")
@@ -163,13 +165,6 @@ class ExampleContractTests{
                 command(otherIdentity.publicKey, ExampleContract.Commands.CreateDraft())
                 this.failsWith("At least one participant must sign the transaction")
             }
-
-
         }
-
-
     }
-
-
-
 }

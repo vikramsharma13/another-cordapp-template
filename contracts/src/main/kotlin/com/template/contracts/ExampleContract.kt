@@ -112,10 +112,7 @@ class ExampleContract : Contract {
 
 
             // only status may change
-
             "Only the status may change" using (input.copy(status = ExampleStateStatus.AGREED) == output)
-
-
 
 
             // Signatures
@@ -130,12 +127,5 @@ class ExampleContract : Contract {
 
 
         }
-
-
-
-
     }
-
-
-
 }
