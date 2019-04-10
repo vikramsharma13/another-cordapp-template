@@ -1,10 +1,10 @@
 package com.template.contracts
 
 import com.template.states.ExampleState
+import com.template.states.ExampleStateStatus
 import net.corda.core.contracts.Command
 import net.corda.core.contracts.CommandData
 import net.corda.core.contracts.Contract
-import net.corda.core.contracts.Requirements.using
 import net.corda.core.contracts.requireThat
 import net.corda.core.transactions.LedgerTransaction
 
@@ -34,7 +34,7 @@ class ExampleContract : Contract {
         val commands = tx.commandsOfType<ExampleContract.Commands>()
 
         requireThat {
-            "There should be exactly one Propose Contract command" using (commands.size == 1)
+            "There should be exactly one ExampleContract command" using (commands.size == 1)
         }
 
         val command = commands.single()
@@ -54,16 +54,18 @@ class ExampleContract : Contract {
         requireThat {
 
             // ExampleState Inputs
-            val ExampleStateInputs = tx.inputsOfType<ExampleState>()
-            "There should be no ExampleState inputs" using (ExampleStateInputs.isEmpty())
+            val exampleStateInputs = tx.inputsOfType<ExampleState>()
+            "There should be no ExampleState inputs" using (exampleStateInputs.isEmpty())
 
             // ExampleState Outputs
-            val ExampleStateOutputs = tx.outputsOfType<ExampleState>()
-            "There should be a single output of type ExampleState" using (ExampleStateOutputs.size == 1)
+            val exampleStateOutputs = tx.outputsOfType<ExampleState>()
+            "There should be a single output of type ExampleState" using (exampleStateOutputs.size == 1)
+            val output = exampleStateOutputs.single()
+            "The output state status should be DRAFT" using (output.status == ExampleStateStatus.DRAFT)
 
             // Signatures
             val signersKeys = command.signers.toSet()
-            val participantsKeys = ExampleStateOutputs.first().participants.map {it.owningKey}.toSet()
+            val participantsKeys = exampleStateOutputs.first().participants.map {it.owningKey}.toSet()
             "At least one participant must sign the transaction" using (participantsKeys.intersect(signersKeys).isNotEmpty())
         }
     }
@@ -74,16 +76,18 @@ class ExampleContract : Contract {
         requireThat {
 
             // ExampleState Inputs
-            val ExampleStateInputs = tx.inputsOfType<ExampleState>()
-            "There should be a single input of type ExampleState" using (ExampleStateInputs.size == 1)
+            val exampleStateInputs = tx.inputsOfType<ExampleState>()
+            "There should be a single input of type ExampleState" using (exampleStateInputs.size == 1)
 
             // ExampleState Outputs
-            val ExampleStateOutputs = tx.outputsOfType<ExampleState>()
-            "There should be a single output of type ExampleState" using (ExampleStateOutputs.size == 1)
+            val exampleStateOutputs = tx.outputsOfType<ExampleState>()
+            "There should be a single output of type ExampleState" using (exampleStateOutputs.size == 1)
+            val output = exampleStateOutputs.single()
+            "The output state status should be DRAFT" using (output.status == ExampleStateStatus.DRAFT)
 
             // Signatures
             val signersKeys = command.signers.toSet()
-            val participantsKeys = ExampleStateOutputs.first().participants.map {it.owningKey}.toSet()
+            val participantsKeys = exampleStateOutputs.first().participants.map {it.owningKey}.toSet()
             "At least one participant must sign the transaction" using (participantsKeys.intersect(signersKeys).isNotEmpty())
         }
     }
@@ -94,16 +98,28 @@ class ExampleContract : Contract {
         requireThat {
 
             // ExampleState Inputs
-            val ExampleStateInputs = tx.inputsOfType<ExampleState>()
-            "There should be a single input of type ExampleState" using (ExampleStateInputs.size == 1)
+            val exampleStateInputs = tx.inputsOfType<ExampleState>()
+            "There should be a single input of type ExampleState" using (exampleStateInputs.size == 1)
+            val input = exampleStateInputs.single()
+            "The input state status should be DRAFT" using (input.status == ExampleStateStatus.AGREED)
 
             // ExampleState Outputs
-            val ExampleStateOutputs = tx.outputsOfType<ExampleState>()
-            "There should be a single output of type ExampleState" using (ExampleStateOutputs.size == 1)
+            val exampleStateOutputs = tx.outputsOfType<ExampleState>()
+            "There should be a single output of type ExampleState" using (exampleStateOutputs.size == 1)
+            val output = exampleStateOutputs.single()
+            "The output state status should be DRAFT" using (output.status == ExampleStateStatus.AGREED)
+
+
+            // only status may change
+
+
+
+
+
 
             // Signatures
             val signersKeys = command.signers.toSet()
-            val participantsKeys = ExampleStateOutputs.first().participants.map {it.owningKey}.toSet()
+            val participantsKeys = exampleStateOutputs.first().participants.map {it.owningKey}.toSet()
             "Both participants must sign the transaction" using (signersKeys.containsAll(participantsKeys))
 
 
