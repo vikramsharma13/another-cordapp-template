@@ -101,18 +101,19 @@ class ExampleContract : Contract {
             val exampleStateInputs = tx.inputsOfType<ExampleState>()
             "There should be a single input of type ExampleState" using (exampleStateInputs.size == 1)
             val input = exampleStateInputs.single()
-            "The input state status should be DRAFT" using (input.status == ExampleStateStatus.AGREED)
+            "The input state status should be DRAFT" using (input.status == ExampleStateStatus.DRAFT)
 
             // ExampleState Outputs
             val exampleStateOutputs = tx.outputsOfType<ExampleState>()
             "There should be a single output of type ExampleState" using (exampleStateOutputs.size == 1)
             val output = exampleStateOutputs.single()
-            "The output state status should be DRAFT" using (output.status == ExampleStateStatus.AGREED)
+            "The output state status should be AGREED" using (output.status == ExampleStateStatus.AGREED)
+
 
 
             // only status may change
 
-
+            "Only the status may change" using (input.copy(status = ExampleStateStatus.AGREED) == output)
 
 
 
