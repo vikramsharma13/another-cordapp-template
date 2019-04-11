@@ -28,10 +28,10 @@ import org.junit.Test
 import rx.Observable
 import java.util.concurrent.Future
 
-class DriverBasedTest {
+class ExampleDriverBasedTest {
 
     // Set up logger
-    val log = loggerFor<DriverBasedTest>()
+    val log = loggerFor<ExampleDriverBasedTest>()
 
     // Set up some identities for use in tests
     private val party1Identity = TestIdentity(CordaX500Name("Party1", "", "GB"))

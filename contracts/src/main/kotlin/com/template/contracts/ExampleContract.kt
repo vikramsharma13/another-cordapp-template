@@ -109,21 +109,13 @@ class ExampleContract : Contract {
             val output = exampleStateOutputs.single()
             "The output state status should be AGREED" using (output.status == ExampleStateStatus.AGREED)
 
-
-
             // only status may change
             "Only the status may change" using (input.copy(status = ExampleStateStatus.AGREED) == output)
-
 
             // Signatures
             val signersKeys = command.signers.toSet()
             val participantsKeys = exampleStateOutputs.first().participants.map {it.owningKey}.toSet()
             "Both participants must sign the transaction" using (signersKeys.containsAll(participantsKeys))
-
-
-            // ReferenceState required
-
-            // todo: add reference state check
 
 
         }
