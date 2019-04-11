@@ -4,8 +4,7 @@
 
 # CorDapp Client Template - Kotlin
 
-Welcome to the Kotlin CorDapp template. The CorDapp template is a stubbed-out CorDapp that you can use to bootstrap 
-your own CorDapps. It also contains some reference implementations of poplular design patterns that you may find helpful.
+Welcome to the Kotlin CorDapp template. The CorDapp template is a stubbed-out CorDapp that you can use to bootstrap your own CorDapps. It also contains an example implementation of some simple Cordapp components that you may find helpful.
 
 # Pre-Requisites
 
@@ -238,3 +237,19 @@ For a guided example of how to extend this template, see the Hello, World! tutor
 [here](https://docs.corda.net/hello-world-introduction.html).
 
 
+# Examples
+
+This template includes the following: 
+
+ExampleState and ExampleContract: A Simple Contract-State pair which defines the following StateMachine: 
+
+![ExampleState Evolution](./resources/ExampleState State evolution.png) 
+
+
+ExampleContractTests: Non exhaustive Examples of ContractTests which test the above state machine.
+
+ExampleFlows: Flows to create, amend and Agree the ExampleStates.
+
+ExampleFlowTests: Non exhaustive test to test the above flows.
+
+ExampleDriverBasedTests: Non exhaustive integration tests.
