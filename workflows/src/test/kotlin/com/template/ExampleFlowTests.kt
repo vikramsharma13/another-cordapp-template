@@ -74,7 +74,6 @@ class ExampleFlowTests{
         network.runNetwork()
         val returnedTx1 = future1.getOrThrow()
 
-
         // Trigger flow to amend
         val stateRef1 = StateRef(returnedTx1.id, 0)
         val flow2 = AmendDraftFlow(stateRef1, "This is a modified agreement between partya and partyb")
