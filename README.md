@@ -243,7 +243,7 @@ This template includes the following:
 
 ExampleState and ExampleContract: A Simple Contract-State pair which defines the following StateMachine: 
 
-![ExampleState Evolution](./resources/ExampleState State evolution.png) 
+![ExampleState State Machine](resources/ExampleState State machine.png) 
 
 
 ExampleContractTests: Non exhaustive Examples of ContractTests which test the above state machine.
