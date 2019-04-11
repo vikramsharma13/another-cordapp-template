@@ -1,5 +1,6 @@
 package com.template.webserver.controller
 
+import com.template.states.ExampleState
 import com.template.webserver.NodeRPCConnection
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,6 +17,16 @@ class CustomController(
 
     companion object {
         private val logger = LoggerFactory.getLogger(RestController::class.java)
+    }
+
+    init{
+        // Define a Vault observable for the Example State
+        val exampleStateVaultObservable = rpc.proxy.vaultTrack(ExampleState::class.java).updates
+        exampleStateVaultObservable.subscribe { update ->
+            update.produced.forEach { (state) ->
+                logger.info("Vault update :"+state.data)
+            }
+        }
     }
 
     private val proxy = rpc.proxy

@@ -1,6 +1,7 @@
 package com.template.webserver.controller
 
 
+import com.template.states.ExampleState
 import com.template.webserver.NodeRPCConnection
 import net.corda.core.contracts.ContractState
 import net.corda.core.messaging.vaultQueryBy
@@ -19,8 +20,19 @@ import java.time.ZoneId
 class StandardController(
         private val rpc: NodeRPCConnection) {
 
+
     companion object {
         private val logger = LoggerFactory.getLogger(RestController::class.java)
+    }
+
+    init{
+        // Define a Vault observable for the Example State
+        val exampleStateVaultObservable = rpc.proxy.vaultTrack(ExampleState::class.java).updates
+        exampleStateVaultObservable.subscribe { update ->
+            update.produced.forEach { (state) ->
+                logger.info("Vault update :"+state.data)
+            }
+        }
     }
 
     private val proxy = rpc.proxy
