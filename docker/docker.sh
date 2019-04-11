@@ -96,7 +96,7 @@ do
     NODE=${NODE_LIST[i]}
     wget -O ${NODE}/certificates/network-root-truststore.jks http://localhost:18080/truststore
     docker rm -f ${NODE}
-    docker run \
+    docker run -d \
             -e MY_LEGAL_NAME="O=${NODE},L=Berlin,C=DE"     \
             -e MY_PUBLIC_ADDRESS="${NODE}"                \
             -e NETWORKMAP_URL="http://netmap:8080"      \
@@ -108,17 +108,6 @@ do
             -v $(pwd)/${NODE}/config:/etc/corda          \
             -v $(pwd)/${NODE}/certificates:/opt/corda/certificates \
             -v $(pwd)/${NODE}/logs:/opt/corda/logs \
-            --name ${NODE} \
-            --network="${NETWORK_NAME}" \
-            corda/corda-zulu-4.0-rc02:latest config-generator --generic
-
-    docker rm -f ${NODE}
-    docker run -d \
-            --memory=2048m \
-            --cpus=2 \
-            -v $(pwd)/${NODE}/config:/etc/corda          \
-            -v $(pwd)/${NODE}/certificates:/opt/corda/certificates \
-            -v $(pwd)/${NODE}/logs:/opt/corda/logs \
             -v $(pwd)/${NODE}/persistence:/opt/corda/persistence \
             -v $(pwd)/cordapps:/opt/corda/cordapps \
             -p "1100"${i}:"1100"${i} \
@@ -126,6 +115,22 @@ do
             -e CORDA_ARGS="--sshd --sshd-port=222"${i} \
             --name ${NODE} \
             --network="${NETWORK_NAME}" \
-            corda/corda-zulu-4.0-rc02:latest
+            corda/corda-zulu-4.0:latest config-generator --generic
+
+#    docker rm -f ${NODE}
+#    docker run -d \
+#            --memory=2048m \
+#            --cpus=2 \
+#            -v $(pwd)/${NODE}/config:/etc/corda          \
+#            -v $(pwd)/${NODE}/certificates:/opt/corda/certificates \
+#            -v $(pwd)/${NODE}/logs:/opt/corda/logs \
+#            -v $(pwd)/${NODE}/persistence:/opt/corda/persistence \
+#            -v $(pwd)/cordapps:/opt/corda/cordapps \
+#            -p "1100"${i}:"1100"${i} \
+#            -p "222"${i}:"222"${i} \
+#            -e CORDA_ARGS="--sshd --sshd-port=222"${i} \
+#            --name ${NODE} \
+#            --network="${NETWORK_NAME}" \
+#            corda/corda-zulu-4.0:RELEASE
 done
 
